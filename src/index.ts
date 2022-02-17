@@ -13,7 +13,9 @@ import { RegisterResolver } from "./modules/user/Register";
         resolvers: [RegisterResolver]
     });
 
-    const apolloServer = new ApolloServer({ schema });
+    const apolloServer = new ApolloServer({ 
+        schema,
+    });
 
     const app = Express();
 
@@ -22,6 +24,6 @@ import { RegisterResolver } from "./modules/user/Register";
     apolloServer.applyMiddleware({ app });
 
     app.listen(4000, () => {
-        console.log("server started on http://localhost:4000/graphql");
+        console.log("Server is running!\r\nListening on port 4000\r\nExplore at https://studio.apollographql.com/sandbox\r\n");
     });
 })();
