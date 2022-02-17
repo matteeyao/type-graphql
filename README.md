@@ -291,3 +291,55 @@ Should give back the following `user`:
   }
 }
 ```
+
+## Authorization - installations
+
+To logout and terminate your session open the Chrome Inspector Tool ▶ `Application` ▶ `Cookies` and remove `qid`
+
+The following `hello` query:
+
+```ts
+{
+  hello
+}
+```
+
+Should return the following error:
+
+```json
+{
+  "errors": [
+    {
+      "message": "not authenticated",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "hello"
+      ],
+      "extensions": {
+        "code": "INTERNAL_SERVER_ERROR",
+        "exception": {
+          "stacktrace": [
+            "Error: not authenticated",
+            "    at /Users/mattyyao/Documents/CS312/typescript/type-graphql/src/modules/middleware/isAuth.ts:7:11",
+            "    at Generator.next (<anonymous>)",
+            "    at /Users/mattyyao/Documents/CS312/typescript/type-graphql/src/modules/middleware/isAuth.ts:8:71",
+            "    at new Promise (<anonymous>)",
+            "    at __awaiter (/Users/mattyyao/Documents/CS312/typescript/type-graphql/src/modules/middleware/isAuth.ts:4:12)",
+            "    at isAuth (/Users/mattyyao/Documents/CS312/typescript/type-graphql/src/modules/middleware/isAuth.ts:5:76)",
+            "    at dispatchHandler (/Users/mattyyao/Documents/CS312/typescript/type-graphql/node_modules/type-graphql/dist/resolvers/helpers.js:82:30)",
+            "    at Object.applyMiddlewares (/Users/mattyyao/Documents/CS312/typescript/type-graphql/node_modules/type-graphql/dist/resolvers/helpers.js:88:12)",
+            "    at /Users/mattyyao/Documents/CS312/typescript/type-graphql/node_modules/type-graphql/dist/resolvers/create.js:27:26",
+            "    at field.resolve (/Users/mattyyao/Documents/CS312/typescript/type-graphql/node_modules/apollo-server-core/src/utils/schemaInstrumentation.ts:106:18)"
+          ]
+        }
+      }
+    }
+  ],
+  "data": null
+}
+```
