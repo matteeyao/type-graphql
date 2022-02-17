@@ -136,7 +136,7 @@ Should get back the following response:
 }
 ```
 
-## Validation
+## Validation - installations
 
 Let's add a library called `ts-node-dev`, which will replace `nodemon` and is an upgrade for use w/ TypeScript
 
@@ -216,5 +216,78 @@ Should get back the following response w/ an error:
     }
   ],
   "data": null
+}
+```
+
+## Login - installations
+
+We'll be creating a resolver to allow users to log into our API. To keep users logged in, we're going to be using sessions and we're going to be using the `express-session` library. We're also going to be storing these session data in Reduce using the `connect-redis` library.
+
+```zsh
+yarn add express-session connect-redis ioredis cors
+```
+
+Install the corresponding types:
+
+```zsh
+yarn add -D @types/express-session @types/connect-redis @types/ioredis @types/cors
+```
+
+W/ the completion of this step, when you perform a `login` mutation:
+
+```ts
+mutation {
+  login(
+    email: "bob2@bob.com",
+    password: "password"
+  ) {
+    id
+    firstName
+    lastName
+    email
+  }
+}
+```
+
+Should give back the `user`:
+
+```json
+{
+  "data": {
+    "login": {
+      "id": "2",
+      "firstName": "hey",
+      "lastName": "bob",
+      "email": "bob2@bob.com"
+    }
+  }
+}
+```
+
+And, when logged in, the session `me` query:
+
+```ts
+{
+  me {
+    id
+    firstName
+    lastName
+    email
+  }
+}
+```
+
+Should give back the following `user`:
+
+```json
+{
+  "data": {
+    "me": {
+      "id": "2",
+      "firstName": "hey",
+      "lastName": "bob",
+      "email": "bob2@bob.com"
+    }
+  }
 }
 ```
