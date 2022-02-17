@@ -60,7 +60,7 @@ To verified it worked, you can go to http://localhost:4000
 
 10. Higher order resolvers
 
-## Setup type-graphql
+## Setup type-graphql - installations
 
 To initialize **yarn**:
 
@@ -84,4 +84,21 @@ With TypeScript installed, you can initialize your TypeScript project by using t
 
 ```zsh
 $ npx tsc --init
+```
+
+## Register users - installations
+
+Install **TypeORM**:
+
+```zsh
+yarn add pg typeorm bcryptjs
+```
+
+> [!NOTE]
+> For a stronger hashing algorithm, install `Argon2` in place of `bcryptjs`
+
+Install corresponding dev dependencies:
+
+```zsh
+yarn add -D @types/bcryptjs
 ```
