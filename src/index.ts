@@ -1,30 +1,27 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server-express";
 import Express from "express";
-import { buildSchema, Resolver, Query } from "type-graphql";
+import { buildSchema } from "type-graphql";
+import { createConnection } from "typeorm";
 
-@Resolver()
-class HelloResolver {
-  @Query(() => String)
-  async helloWorld() {
-    return "Hello World!";
-  }
-}
+import { RegisterResolver } from "./modules/user/Register";
 
 (async () => {
-  const schema = await buildSchema({
-    resolvers: [HelloResolver]
-  });
+    await createConnection();
 
-  const apolloServer = new ApolloServer({ schema });
+    const schema = await buildSchema({
+        resolvers: [RegisterResolver]
+    });
 
-  const app = Express();
+    const apolloServer = new ApolloServer({ schema });
 
-  await apolloServer.start();
+    const app = Express();
 
-  apolloServer.applyMiddleware({ app });
+    await apolloServer.start();
 
-  app.listen(4000, () => {
-    console.log("server started on http://localhost:4000/graphql");
-  });
+    apolloServer.applyMiddleware({ app });
+
+    app.listen(4000, () => {
+        console.log("server started on http://localhost:4000/graphql");
+    });
 })();
