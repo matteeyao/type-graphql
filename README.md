@@ -343,3 +343,66 @@ Should return the following error:
   "data": null
 }
 ```
+
+## Confirmation email - installations
+
+Install `nodemailer` and `uuid`, which will allow us to create unique IDs:
+
+```zsh
+yarn add nodemailer uuid
+```
+
+Add the corresponding TypScript type dependencies:
+
+```
+yarn add -D @types/nodemailer @types/uuid
+```
+
+The following `confirmUser` mutation:
+
+```ts
+mutation {
+  confirmUser(token: "0cc40394-b900-4002-b8a6-943922034781")
+}
+```
+
+Should return:
+
+```json
+{
+  "data": {
+    "confirmUser": true
+  }
+}
+```
+
+And now we can actually login as the user:
+
+```ts
+mutation {
+  login(
+    email: "bobman@bob.com",
+    password: "password"
+  ) {
+    id
+    firstName
+    lastName
+    email
+  }
+}
+```
+
+Which sends us back:
+
+```json
+{
+  "data": {
+    "login": {
+      "id": "16",
+      "firstName": "Bob",
+      "lastName": "Man",
+      "email": "bobman@bob.com"
+    }
+  }
+}
+```
