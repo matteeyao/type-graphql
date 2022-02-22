@@ -1,9 +1,9 @@
-import {
+import { 
   Resolver,
   Query,
   Mutation,
   Arg,
-  UseMiddleware,
+  UseMiddleware
 } from "type-graphql";
 import bcrypt from "bcryptjs";
 
@@ -16,7 +16,6 @@ import { createConfirmationUrl } from "../utils/createConfirmationUrl";
 
 @Resolver()
 export class RegisterResolver {
-  //Authenticated()
   @UseMiddleware(isAuth, logger)
   @Query(() => String)
   async hello() {
