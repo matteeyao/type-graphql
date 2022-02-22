@@ -406,3 +406,114 @@ Which sends us back:
   }
 }
 ```
+
+## Forgot/change password - installations
+
+Similar to the last module, we are going to be sending a token to the user's email and they are going to click on a URL that has a token, which will be used to verify the user when they change their password.
+
+The following mutation:
+
+```ts
+mutation {
+  forgotPassword(email: "bobman@bob.com")
+}
+```
+Should log the following to the console:
+
+```zsh
+Message sent: <541aeef4-1d48-8453-bcd8-ec2c5b51cef1@example.com>
+Preview URL: https://ethereal.email/message/XDviCODfsg1dXMTmXDviCtUFLVSx.Z3cAAAAAegHFloequzBBxEd-9WaX4k
+```
+
+Clicking on the `preview url` should take you to an email w/ a link allowing you to change your URL and containing a token:
+
+```txt
+http://localhost:3000/user/change-password/a4798836-46c3-4b1d-bedb-310aecf6fc83
+```
+
+Continuing forward, our `changePassword` mutation:
+
+```ts
+mutation {
+  changePassword(
+    data: {
+      token: "a4798836-46c3-4b1d-bedb-310aecf6fc83",
+      password: "password2"
+    }
+  ) {
+    id
+    email
+    firstName
+    lastName
+  }
+}
+```
+
+should return the following:
+
+```json
+{
+  "data": {
+    "changePassword": {
+      "id": "6",
+      "email": "bobman@bob.com",
+      "firstName": "bob",
+      "lastName": "man"
+    }
+  }
+}
+```
+
+And the following `login` mutation:
+
+```ts
+mutation {
+  login(email: "bobman@bob.com", password: "password") {
+    id
+    firstName
+    lastName
+    email
+    name
+  }
+}
+```
+
+should return failing login data:
+
+```json
+{
+  "data": {
+    "login": null
+  }
+}
+```
+
+W/ the correct changed password, however:
+
+```ts
+mutation {
+  login(email: "bobman@bob.com", password: "password2") {
+    id
+    firstName
+    lastName
+    email
+    name
+  }
+}
+```
+
+We get back the correct user:
+
+```ts
+{
+  "data": {
+    "login": {
+      "id": "6",
+      "firstName": "bob",
+      "lastName": "man",
+      "email": "bobman@bob.com",
+      "name": "bob man"
+    }
+  }
+}
+```
