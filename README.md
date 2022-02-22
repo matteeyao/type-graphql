@@ -517,3 +517,46 @@ We get back the correct user:
   }
 }
 ```
+
+## Logout - installations
+
+When the following `logout` mutation is run:
+
+```ts
+mutation {
+  logout
+}
+```
+
+The response should be:
+
+```json
+{
+  "data": {
+    "logout": true
+  }
+}
+```
+
+And when running the `me` session query:
+
+```ts
+{
+  me {
+    id
+    firstName
+    lastName
+    email
+  }
+}
+```
+
+The response should return:
+
+```json
+{
+  "data": {
+    "me": null
+  }
+}
+```
