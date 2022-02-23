@@ -582,3 +582,11 @@ To create the database used for testing, run the following command:
 ```zsh
 createdb typegraphql-example-test
 ```
+
+# Testing resolvers - installations
+
+Install library `faker` as a dev dependency and the corresponding types:
+
+```zsh
+yarn add -D @faker-js/faker @types/faker
+```

@@ -8,6 +8,12 @@ import { MeResolver } from "../modules/user/Me";
 import { RegisterResolver } from "../modules/user/Register";
 
 export const createSchema = () =>
+    // buildSchema({
+    //     resolvers: [__dirname + "/../modules/{,!(__test__)}/*.ts"],
+    //     authChecker: ({ context: { req } }) => {
+    //         return !!req.session.userId;
+    //     }
+    // });
     buildSchema({
         resolvers: [
             ChangePasswordResolver,
