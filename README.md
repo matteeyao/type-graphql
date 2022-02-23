@@ -590,3 +590,29 @@ Install library `faker` as a dev dependency and the corresponding types:
 ```zsh
 yarn add -D @faker-js/faker @types/faker
 ```
+
+# Higher order resolvers - installations
+
+After implementing the `Product` entity and accompanying resolver, the following mutation:
+
+```ts
+mutation {
+  createProduct(data: {name:"Alexa"}) {
+    id
+    name
+  }
+}
+```
+
+should return:
+
+```json
+{
+  "data": {
+    "createProduct": {
+      "id": "1",
+      "name": "Alexa"
+    }
+  }
+}
+```
