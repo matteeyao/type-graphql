@@ -2,12 +2,12 @@ import "reflect-metadata";
 import { ApolloServer } from "apollo-server-express";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import Express from "express";
-import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 import session from "express-session";
 import connectRedis from "connect-redis";
 
 import { redis } from "./redis";
+import { createSchema } from "./utils/createSchema";
 
 declare module 'express-session' {
     interface SessionData {
@@ -20,12 +20,7 @@ declare module 'express-session' {
 
     await createConnection();
 
-    const schema = await buildSchema({
-        resolvers: [__dirname + '/modules/**/*.ts'],
-        authChecker: ({ context: { req } }) => {
-            return !!req.session.userId;
-        }
-    });
+    const schema = await createSchema();
 
     const apolloServer = new ApolloServer({
         schema,
