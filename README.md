@@ -560,3 +560,25 @@ The response should return:
   }
 }
 ```
+
+# Setting up a test environment - installations
+
+The following tests will be integration tests, each calling the GraphQL resolvers and allowing the resolvers to make requests and updates to the database and receive data from the db for both mutations and queries. And we can also check the database and the response from the resolvers to ensure we get the right data back that we expect.
+
+Install the test-runner `ts-jest` and the corresponding types:
+
+```zsh
+yarn add --dev jest typescript ts-jest @types/jest
+```
+
+Run the following command to initialize the configuration file:
+
+```zsh
+yarn ts-jest config:init
+```
+
+To create the database used for testing, run the following command:
+
+```zsh
+createdb typegraphql-example-test
+```
