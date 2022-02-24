@@ -616,3 +616,53 @@ should return:
   }
 }
 ```
+
+# File uploads - installations
+
+Install `graphql-upload`:
+
+```zsh
+yarn add graphql-upload
+```
+
+and the corresponding types:
+
+```zsh
+yarn add -D @types/graphql-upload
+```
+
+When the resolver is implemented, the following `AddProfilePicture` mutation:
+
+```ts
+mutation AddProfilePicture($picture: Upload!) {
+  addProfilePicture(picture: $picture)
+}
+```
+
+can be copied as an operation to the following CURL command:
+
+```zsh
+'{"query":"mutation AddProfilePicture($picture: Upload!) {\n  addProfilePicture(picture: $picture)\n}"}'
+```
+
+Make the request through Postman, w/ the Body in form-data format:
+
+```json
+{
+  "operations": {"query":"mutation AddProfilePicture($picture: Upload!) {\n  addProfilePicture(picture: $picture)\n}"},
+  "map": {"0": ["variables.picture"]},
+  "0": "Select Files"
+}
+```
+
+The response is shown below:
+
+```json
+{
+  "data": {
+      "addProfilePicture": true
+  }
+}
+```
+
+And the image should appear in the `/images` directory.
