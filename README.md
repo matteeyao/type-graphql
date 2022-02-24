@@ -666,3 +666,145 @@ The response is shown below:
 ```
 
 And the image should appear in the `/images` directory.
+
+## Query complexity - installations
+
+Query complexity allows a GraphQL server to prevent abuse by users from sending large queries to the server that will crash or slow the server down.
+
+For example, using an alias, the following query:
+
+```ts
+{
+  me {
+    id
+    firstName
+    lastName
+    email
+  }
+  me2: me {
+    id
+    firstName
+    lastName
+    email
+  }
+  me3: me {
+    id
+    firstName
+    lastName
+    email
+  }
+  me4: me {
+    id
+    firstName
+    lastName
+    email
+  }
+  me5: me {
+    id
+    firstName
+    lastName
+    email
+  }
+}
+```
+
+will generate the following result:
+
+```json
+{
+  "data": {
+    "me": {
+      "id": "6",
+      "firstName": "qqwe",
+      "lastName": "bob",
+      "email": "bob4@bob.com"
+    },
+    "me2": {
+      "id": "6",
+      "firstName": "qqwe",
+      "lastName": "bob",
+      "email": "bob4@bob.com"
+    },
+    "me3": {
+      "id": "6",
+      "firstName": "qqwe",
+      "lastName": "bob",
+      "email": "bob4@bob.com"
+    },
+    "me4": {
+      "id": "6",
+      "firstName": "qqwe",
+      "lastName": "bob",
+      "email": "bob4@bob.com"
+    },
+    "me5": {
+      "id": "6",
+      "firstName": "qqwe",
+      "lastName": "bob",
+      "email": "bob4@bob.com"
+    }
+  }
+}
+```
+
+Let's prevent users from sending a batch of `me` queries or a sending a query w/ a batch of queries inside of it.
+
+Install `graphql-query-complexity`:
+
+```zsh
+yarn add graphql-query-complexity
+```
+
+The following query:
+
+```ts
+{
+  me {
+    id
+    fistName
+    lastName
+    email
+  }
+}
+```
+
+should log to the console:
+
+```zsh
+Query Complexity: 5
+```
+
+which is less than the specified query complexity `maximumComplexity` of 8.
+
+If we have over 8, for example the query complexity of the next query is 10
+
+```ts
+{
+  me {
+    id
+    firstName
+    lastName
+    email
+  }
+  me2: me {
+    id
+    firstName
+    lastName
+    email
+  }
+}
+```
+
+should output the following error:
+
+```json
+{
+  "error": {
+    "errors": [
+      {
+        "message": "The query exceeds the maximum complexity of 8. Actual complexity is 10"
+      }
+    ]
+  }
+}
+```
