@@ -5,6 +5,7 @@ import Express from "express";
 import { createConnection } from "typeorm";
 import session from "express-session";
 import connectRedis from "connect-redis";
+import { graphqlUploadExpress } from "graphql-upload";
 
 import { redis } from "./redis";
 import { createSchema } from "./utils/createSchema";
@@ -56,6 +57,8 @@ declare module 'express-session' {
             }
         })
     );
+
+    app.use(graphqlUploadExpress());
 
     await apolloServer.start();
 
