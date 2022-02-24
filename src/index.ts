@@ -11,6 +11,9 @@ import {
     simpleEstimator,
     fieldExtensionsEstimator
 } from "graphql-query-complexity";
+import { Container } from "typedi";
+import * as TypeORM from "typeorm";
+import { useContainer } from "graphql-schema-decorator";
 
 import { redis } from "./redis";
 import { createSchema } from "./utils/createSchema";
@@ -20,6 +23,9 @@ declare module 'express-session' {
         userId: any;
     }
 }
+
+useContainer(Container);
+TypeORM.useContainer(Container);
 
 (async () => {
     const isProduction = process.env.NODE_ENV === "production";
