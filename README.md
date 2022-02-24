@@ -808,3 +808,17 @@ should output the following error:
   }
 }
 ```
+
+## Dependency injection - installations
+
+To install `dataloader` for the `typeorm-caching` approach, run:
+
+```zsh
+yarn add dataloader
+```
+
+To install `typeorm-typedi-extensions` for the `dependency injection` approach, run:
+
+```zsh
+yarn add typedi typeorm-typedi-extensions graphql-schema-decorator
+```
